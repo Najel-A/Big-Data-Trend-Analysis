@@ -1,4 +1,4 @@
-FROM bitnami/spark:latest
+FROM bitnami/spark:3.5.1
 
 
 USER root
@@ -19,7 +19,13 @@ RUN pip3 install --no-cache-dir \
     torch \
     scikit-learn \
     pandas \
-    gensim
-
+    gensim \
+    python-dotenv 
 # Optional: set default entrypoint (can override in docker-compose)
+
+ADD https://repo1.maven.org/maven2/org/apache/spark/spark-sql-kafka-0-10_2.12/3.5.1/spark-sql-kafka-0-10_2.12-3.5.1.jar /opt/bitnami/spark/jars/
+ADD https://repo1.maven.org/maven2/org/apache/kafka/kafka-clients/3.5.1/kafka-clients-3.5.1.jar /opt/bitnami/spark/jars/
+ADD https://repo1.maven.org/maven2/org/apache/kafka/kafka_2.12/3.5.1/kafka_2.12-3.5.1.jar /opt/bitnami/spark/jars/
+
+
 CMD ["spark-submit", "spark_stream.py"]
