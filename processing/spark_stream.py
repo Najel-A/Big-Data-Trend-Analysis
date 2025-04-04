@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import from_json, col
+from pyspark.sql.functions import from_json, col, to_json
 from pyspark.sql.types import StructType, StringType, TimestampType, ArrayType
 from dotenv import load_dotenv
 import os
@@ -19,16 +19,14 @@ schema = StructType() \
     .add("text", StringType()) \
     .add("created_at", TimestampType()) \
     .add("sentiment", StringType()) \
-    .add("entities", ArrayType(StructType([
-        
-    ])))
+    .add("entities", ArrayType(StructType([])))  # Schema inside struct can be expanded later
 
 df_raw = spark.readStream \
     .format("kafka") \
     .option("kafka.bootstrap.servers", "kafka:9092") \
     .option("subscribe", "twitter_sentiment") \
-    .option("startingOffsets", "earliest") \
-    .load() 
+    .option("startingOffsets", "latest") \
+    .load()
 
 df_json = df_raw.selectExpr("CAST(value AS STRING) as json_str") \
     .select(from_json(col("json_str"), schema).alias("data")) \
@@ -36,7 +34,7 @@ df_json = df_raw.selectExpr("CAST(value AS STRING) as json_str") \
         col("data.text"),
         col("data.created_at").cast(TimestampType()),
         col("data.sentiment"),
-        col("data.entities")
+        to_json(col("data.entities")).alias("entities")  # <- Serialize as JSON
     )
 
 def write_to_postgres(batch_df, batch_id):
