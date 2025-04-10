@@ -17,7 +17,7 @@ nlp = spacy.load("en_core_web_sm")
 
 # Kafka Producer
 producer = KafkaProducer(
-    bootstrap_servers="localhost:29092",
+    bootstrap_servers="localhost:9093",
     value_serializer=lambda v: json.dumps(v).encode("utf-8")
 )
 
@@ -62,4 +62,4 @@ for _ in range(num_batches):
     except Exception as e:
         print("Error:", e)
 
-    time.sleep(30)
+    time.sleep(5)

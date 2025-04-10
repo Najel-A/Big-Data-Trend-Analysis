@@ -8,6 +8,7 @@ Tasks
 
 ## Setup
 Create a .env file with the following variables:
+
 POSTGRES_USER=<your-username>
 
 POSTGRES_PASSWORD=<your-password>
