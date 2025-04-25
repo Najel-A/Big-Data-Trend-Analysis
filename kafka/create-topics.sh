@@ -3,7 +3,6 @@
 BROKER="localhost:9092"
 TOPICS=("twitter_sentiment" "reddit_stream" "sports_stream")
 
-
 # Proceed to create topics
 for topic in "${TOPICS[@]}"; do
   echo "🔧 Creating topic: $topic"
