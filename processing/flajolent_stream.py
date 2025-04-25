@@ -48,7 +48,7 @@ schema = StructType() \
 df_raw = spark.readStream \
     .format("kafka") \
     .option("kafka.bootstrap.servers", "kafka:9092") \
-    .option("subscribe", "twitter_sentiment") \
+    .option("subscribe", "fm_estimates") \
     .option("startingOffsets", "latest") \
     .load()
 
