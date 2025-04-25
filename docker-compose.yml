@@ -35,6 +35,8 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     volumes:
       - kafka-data:/var/lib/kafka/data
+      - ./kafka/create-topics.sh:/scripts/create-topics.sh
+    command: sh -c "chmod +x /scripts/create-topics.sh && /etc/confluent/docker/run"
 
   kafka-connect:
     image: confluentinc/cp-server-connect:latest
