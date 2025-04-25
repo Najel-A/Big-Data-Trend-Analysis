@@ -55,6 +55,10 @@ def write_to_postgres_with_decay(batch_df, batch_id):
         "weight", 
         exp(-lit(DECAY_RATE) * col("time_diff_sec") / lit(HALF_LIFE))
     )
+
+    # Log the first 5 rows (for debugging)
+    print(f"Batch {batch_id} - Sample Data:")
+    decayed_df.show(5, truncate=False)
     
     # Optional: Apply weights to sentiment scores (example)
     weighted_df = decayed_df.withColumn(

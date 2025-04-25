@@ -30,4 +30,4 @@ ADD https://repo1.maven.org/maven2/org/apache/spark/spark-token-provider-kafka-0
 ADD https://jdbc.postgresql.org/download/postgresql-42.7.3.jar /opt/bitnami/spark/jars/
 RUN curl -L -o /opt/bitnami/spark/jars/commons-pool2-2.11.1.jar https://repo1.maven.org/maven2/org/apache/commons/commons-pool2/2.11.1/commons-pool2-2.11.1.jar
 
-CMD ["spark-submit", "spark_stream.py", "twitter_steam_edw.py"]
+CMD ["spark-submit", "twitter_steam_edw.py"]
