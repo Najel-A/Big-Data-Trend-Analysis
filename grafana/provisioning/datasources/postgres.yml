@@ -5,10 +5,10 @@ datasources:
     type: postgres
     access: proxy
     url: postgres:5432
-    user: your_user
+    user: user
     secureJsonData:
-      password: your_password
-    database: your_database_name
+      password: password
+    database: analytics
     isDefault: true
     editable: true
     jsonData:

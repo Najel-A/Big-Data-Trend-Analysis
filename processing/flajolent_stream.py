@@ -70,10 +70,13 @@ def write_to_postgres(batch_df, batch_id):
     print(f"\n=== Processing Batch {batch_id} ===")
     print("Sample data from batch:")
     batch_df.show(5, truncate=False)
-    
+    KEYWORDS = ["LeBron", "GOAT", "cooked", "mid", "Lakers"]
+    keyword_filter = batch_df.filter(
+        col("text").rlike("|".join([f"(?i){kw}" for kw in KEYWORDS]))
+    )
     # Get tweet texts as a list
-    texts = batch_df.select("text").rdd.map(lambda row: row["text"]).collect()
-    print(f"\nFirst 3 text samples: {texts[:3]}")
+    texts = keyword_filter.select("text").rdd.map(lambda row: row["text"]).collect()
+    print(f"\nFirst 3 filtered text samples: {texts[:3]}")
     
     est_unique_count = flajolet_martin_estimate(texts)
     print(f"Calculated Flajolet-Martin estimate: {est_unique_count}")
